@@ -158,7 +158,7 @@ void InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, 
 ///////////////////////////////////////////////////////////////////
 void GameUpdate()
 {
-	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
+	float ClearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f }; //red,green,blue,alpha
 	//描き込み先をバックバッファにする。
 	g_pd3dDeviceContext->OMSetRenderTargets(1, &g_backBuffer, NULL);
 	//バックバッファを灰色で塗りつぶす。
