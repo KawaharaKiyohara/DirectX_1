@@ -8,11 +8,13 @@ public:
 	~Effect();
 	//ロード。
 	void Load(const char* shaderFilePath);
-	void SetEffect();
+	void BeginRender();
 private:
 	ID3D11VertexShader* m_vs = NULL;	//頂点シェーダー。
 	ID3D11PixelShader* m_ps = NULL;	//ピクセルシェーダー。
 	ID3DBlob* m_vsBlobOut = NULL;
 	ID3DBlob* m_psBlobOut = NULL;
+	ID3D11InputLayout* m_inputLayout = NULL;	//入力レイアウト。
+
 };
 

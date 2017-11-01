@@ -12,12 +12,11 @@ ID3D11Device*			g_pd3dDevice = NULL;		//D3D11デバイス。
 IDXGISwapChain*			g_pSwapChain = NULL;		//スワップチェイン。
 ID3D11DeviceContext*	g_pd3dDeviceContext = NULL;	//D3D11デバイスコンテキスト。
 ID3D11RenderTargetView* g_backBuffer = NULL;		//バックバッファ。
-
+ID3D11RasterizerState*	g_rasterizerState = NULL;
 ///////////////////////////////////////////////////////////////////
 //ここから三角形ポリゴン描画関係の変数など。
 ///////////////////////////////////////////////////////////////////
 ID3D11Buffer* g_vertexBuffer = NULL;		//頂点バッファ。
-ID3D11InputLayout* g_inputLayout = NULL;	//入力レイアウト。
 Effect g_effect;							//エフェクト。気にしなくてよい。
 
 //頂点構造体。
@@ -79,12 +78,37 @@ void InitDirectX()
 	g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 	g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_backBuffer);
 	pBackBuffer->Release();
+
+	D3D11_RASTERIZER_DESC desc = {};
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.FillMode = D3D11_FILL_SOLID;
+	desc.DepthClipEnable = true;
+	desc.MultisampleEnable = true;
+
+	//ラスタライザとビューポートを初期化。
+	g_pd3dDevice->CreateRasterizerState(&desc, &g_rasterizerState);
+
+	D3D11_VIEWPORT viewport;
+	viewport.Width = 500;
+	viewport.Height = 500;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	g_pd3dDeviceContext->RSSetViewports(1, &viewport);
+	g_pd3dDeviceContext->RSSetState(g_rasterizerState);
 }
 ///////////////////////////////////////////////////////////////////
 // DirectXの終了処理。
 ///////////////////////////////////////////////////////////////////
 void ReleaseDirectX()
 {
+	if (g_vertexBuffer != NULL) {
+		g_vertexBuffer->Release();
+	}
+	if (g_rasterizerState != NULL) {
+		g_rasterizerState->Release();
+	}
 	if (g_backBuffer != NULL) {
 		g_backBuffer->Release();
 	}
@@ -97,6 +121,7 @@ void ReleaseDirectX()
 	if (g_pd3dDevice != NULL) {
 		g_pd3dDevice->Release();
 	}
+	
 }
 ///////////////////////////////////////////////////////////////////
 //メッセージプロシージャ。
@@ -170,17 +195,18 @@ void InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, 
 ///////////////////////////////////////////////////////////////////
 void InitTrianglePolygon()
 {
-	//3頂点を定義する。
+	//3頂点を定義する。これが頂点座標
 	SVertex vertex[3] = {
-		{ -0.5f, 1.0f, 0.0f, 1.0f},
-		{  0.0f, 0.0f, 0.0f, 1.0f },
-		{  0.5f, 1.0f, 0.0f, 1.0f },
+		{ 0.5f,  -0.5f, 0.0f, 1.0f },	//頂点１
+		{  0.0f,  0.5f, 0.0f, 1.0f },	//頂点２
+		{ -0.5f, -0.5f, 0.0f, 1.0f },	//頂点３
 	};
 	//上で定義した頂点を使用して頂点バッファを作成する。
 	//頂点バッファを作成するためにはD3D11_BUFFER_DESCとD3D11_SUBRESOURCE_DATAを設定する必要がある。
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));				//構造体を0で初期化する。
-	bd.Usage = D3D11_USAGE_DEFAULT;				//バッファーで想定されている読み込みおよび書き込みの方法。取りあえずはD3D11_USAGE_DEFAULTでよい。
+	bd.Usage = D3D11_USAGE_DEFAULT;				//バッファーで想定されている読み込みおよび書き込みの方法。
+												//取りあえずはD3D11_USAGE_DEFAULTでよい。
 	bd.ByteWidth = sizeof(vertex);				//頂点バッファのサイズ。頂点のサイズ×頂点数となる。
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;	//これから作成するバッファが頂点バッファであることを指定する。
 
@@ -205,11 +231,26 @@ void GameUpdate()
 	g_pd3dDeviceContext->OMSetRenderTargets(1, &g_backBuffer, NULL);
 	//バックバッファを灰色で塗りつぶす。
 	g_pd3dDeviceContext->ClearRenderTargetView(g_backBuffer, ClearColor);
-
+	
 	/////////////////////////////////////////////////
 	// ここに3Dモデルなどを描画するコードを書いていく。
 	/////////////////////////////////////////////////
-	
+	g_effect.BeginRender();						//描画開始。
+	unsigned int vertexSize = sizeof(SVertex);	//頂点のサイズ。
+	unsigned int offset = 0;						
+	g_pd3dDeviceContext->IASetVertexBuffers(	//頂点バッファを設定。
+		0,					//StartSlot番号。今は0でいい。
+		1,					//バッファの数。今は1でいい。
+		&g_vertexBuffer,	//頂点バッファ。
+		&vertexSize,		//頂点のサイズ。
+		&offset				//気にしなくてよい。
+	);
+	//プリミティブのトポロジーを設定する。(詳しくはLesson_3で解説を行う。)
+	g_pd3dDeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	g_pd3dDeviceContext->Draw(	//描画命令。
+		3,						//頂点数。
+		0						//開始頂点番号。
+	);
 	//バックバッファとフロントバッファを入れ替える。
 	g_pSwapChain->Present(0, 0);
 }

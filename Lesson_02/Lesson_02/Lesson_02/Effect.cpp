@@ -20,9 +20,13 @@ Effect::~Effect()
 	if (m_ps) {
 		m_ps->Release();
 	}
+	if (m_inputLayout) {
+		m_inputLayout->Release();
+	}
 }
-void Effect::SetEffect()
+void Effect::BeginRender()
 {
+	g_pd3dDeviceContext->IASetInputLayout(m_inputLayout);
 	g_pd3dDeviceContext->VSSetShader(m_vs, NULL, NULL);
 	g_pd3dDeviceContext->PSSetShader(m_ps, NULL, NULL);
 }
@@ -51,4 +55,9 @@ void Effect::Load(const char* filePath)
 	//ピクセルシェーダーを作成。
 	g_pd3dDevice->CreatePixelShader(m_psBlobOut->GetBufferPointer(), m_psBlobOut->GetBufferSize(), NULL, &m_ps);
 
+	//入力レイアウトを作成。
+	D3D11_INPUT_ELEMENT_DESC inputLayoutDesc[] = {
+		{ "SV_Position", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	g_pd3dDevice->CreateInputLayout(inputLayoutDesc, 1, m_vsBlobOut->GetBufferPointer(), m_vsBlobOut->GetBufferSize(), &m_inputLayout);
 }
