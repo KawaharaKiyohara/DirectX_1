@@ -214,31 +214,31 @@ void InitVertexBuffer()
 		//頂点１
 		{
 			//座標　position[4]
-			-0.5f,  -0.5f, 0.0f, 1.0f, 
+			-0.5f,  -0.5f, 0.0f, 1.0f,
 			//UV座標 uv[2]
-			0.0f, 1.0f		
+			0.0f, 1.0f
 		},
 		//頂点２
-		{ 
+		{
 			//座標　position[4]
 			0.5f, -0.5f, 0.0f, 1.0f,
 			//UV座標 uv[2]
 			1.0f, 1.0f
 		},
 		//頂点３
-		{ 
+		{
 			//座標　position[4]
 			-0.5f,  0.5f, 0.0f, 1.0f,
 			//UV座標 uv[2]
 			0.0f, 0.0f
-		},	
+		},
 		//頂点４
-		{ 
+		{
 			//座標　position[4]
 			0.5f,  0.5f, 0.0f, 1.0f,
 			//UV座標 uv[2]
 			1.0f, 0.0f
-		},	
+		},
 	};
 	//上で定義した頂点を使用して頂点バッファを作成する。
 	//頂点バッファを作成するためにはD3D11_BUFFER_DESCとD3D11_SUBRESOURCE_DATAを設定する必要がある。
@@ -370,16 +370,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	InitSamplerState();
 	//テクスチャをロード。
 	DirectX::CreateDDSTextureFromFileEx(
-		g_pd3dDevice,
-		L"Assets/mikyan.dds",
-		0,
-		D3D11_USAGE_DEFAULT,
-		D3D11_BIND_SHADER_RESOURCE,
-		0,
-		0,
-		false,
-		nullptr,
-		&g_texture
+		g_pd3dDevice,				//D3Dデバイス。
+		L"Assets/mikyan.dds",		//読み込む画像データのファイルパス。
+		0,                          //今は気にしなくてよい。
+		D3D11_USAGE_DEFAULT,		//今は気にしなくてよい。
+		D3D11_BIND_SHADER_RESOURCE,	//今は気にしなくてよい。
+		0,							//今は気にしなくてよい。
+		0,							//今は気にしなくてよい。
+		false,						//今は気にしなくてよい。
+		nullptr,					//今は気にしなくてよい。
+		&g_texture					//読み込んだテクスチャに
+									//アクセスするためのインターフェースの格納先。
 	);
 	//メッセージ構造体の変数msgを初期化。
 	MSG msg = { 0 };
