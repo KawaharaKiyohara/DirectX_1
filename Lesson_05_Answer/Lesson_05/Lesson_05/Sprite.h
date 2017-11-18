@@ -10,8 +10,11 @@ public:
 	 * Spriteクラスを使用できるようにします。
 	 *引数	texFilePath		テクスチャのファイルパス。
 	 */
-	void Sprite::Init(const wchar_t* texFilePath);
-	
+	void Init(const wchar_t* texFilePath);
+	/*!
+	 * @brief	描画。
+	 */
+	void Draw();
 	ID3D11Buffer*				m_vertexBuffer = NULL;	//頂点バッファ。
 	ID3D11Buffer*				m_indexBuffer = NULL;	//インデックスバッファ。
 	Effect						m_effect;				//エフェクト。気にしなくてよい。
