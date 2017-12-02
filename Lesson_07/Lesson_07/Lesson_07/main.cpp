@@ -16,7 +16,11 @@ GraphicsEngine* g_graphicsEngine = NULL;	//グラフィックスエンジン。
 Sprite g_sprite;		//スプライト。
 CVector3 g_spritePos = CVector3::Zero();	//スプライトの座標。
 
-SkinModel g_skinModel;	//スキンモデル。
+//ティーポット関係の変数。
+CVector3 g_teapotPosition = CVector3::Zero();			//ティーポットの座標。
+CQuaternion g_teapotRotation = CQuaternion::Identity();	//ティーポットの回転。
+CVector3 g_teapotScale = CVector3::One();				//ティーポットの拡大率。
+SkinModel g_teapotModel;								//ティーポットモデル。
 
 ///////////////////////////////////////////////////////////////////
 // DirectXの終了処理。
@@ -105,8 +109,12 @@ void GameUpdate()
 	
 	g_graphicsEngine->BegineRender();
 	//3Dモデルを描画する。
-	g_skinModel.UpateWorldMatrix(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
-	g_skinModel.Draw(g_camera3D->GetViewMatrix(), g_camera3D->GetProjectionMatrix());
+	g_teapotModel.UpateWorldMatrix(
+		g_teapotPosition, 
+		g_teapotRotation,
+		g_teapotScale
+	);
+	g_teapotModel.Draw(g_camera3D->GetViewMatrix(), g_camera3D->GetProjectionMatrix());
 	//SpriteのUpdate関数を呼び出す。
 	//Sin,Cosカーブを使ってSpriteを適当に動かす。
 	static float t = 0.0f;
@@ -156,8 +164,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	//Spriteを初期化
 	g_sprite.Init(L"sprite/mikyan.dds", 240.0f, 240.0f);
-	//SkinModelを初期化。
-	g_skinModel.Load(L"modelData/teapot.cmo");
+	//ティーポットモデルを初期化。
+	g_teapotModel.Load(L"modelData/teapot.cmo");
 	//メッセージ構造体の変数msgを初期化。
 	MSG msg = { 0 };
 	while (WM_QUIT != msg.message)	//メッセージループ

@@ -93,8 +93,6 @@
     </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\modelData\teapot.FBX">
-      <Filter>Source Files\Assets\modelData</Filter>
-    </None>
+    <MeshContentTask Include="Assets\modelData\teapot.FBX" />
   </ItemGroup>
 </Project>
