@@ -247,7 +247,7 @@ void XM_CALLCONV Model::Draw(
     FXMMATRIX world,
     CXMMATRIX view,
     CXMMATRIX projection,
-    bool wireframe, std::function<void()> setCustomState) const
+    bool wireframe) const
 {
     assert(deviceContext != 0);
 
@@ -259,7 +259,7 @@ void XM_CALLCONV Model::Draw(
 
         mesh->PrepareForRendering(deviceContext, states, false, wireframe);
 
-        mesh->Draw(deviceContext, world, view, projection, false, setCustomState);
+        mesh->Draw(deviceContext, world, view, projection, false);
     }
 
     // Draw alpha parts
@@ -270,7 +270,7 @@ void XM_CALLCONV Model::Draw(
 
         mesh->PrepareForRendering(deviceContext, states, true, wireframe);
 
-        mesh->Draw(deviceContext, world, view, projection, true, setCustomState);
+        mesh->Draw(deviceContext, world, view, projection, true);
     }
 }
 

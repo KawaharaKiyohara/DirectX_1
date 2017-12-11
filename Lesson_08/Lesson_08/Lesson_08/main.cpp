@@ -105,10 +105,7 @@ void GameUpdate()
 {
 	
 	g_graphicsEngine->BegineRender();
-	//ティーポットをＸ軸方向に毎フレーム0.1の速度で動かしなさい。
-	CVector3 moveSpeed = { 0.0f, 0.0f, 0.1f };
-	g_teapotPosition += moveSpeed;
-
+	
 	//3Dモデルを描画する。
 	g_teapotModel.UpateWorldMatrix(
 		g_teapotPosition, 

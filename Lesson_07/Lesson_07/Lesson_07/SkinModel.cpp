@@ -65,8 +65,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 			m_worldMatrix,
 			viewMatrix,
 			projMatrix,
-			false,
-			NULL
+			false
 		);
 	}
 }

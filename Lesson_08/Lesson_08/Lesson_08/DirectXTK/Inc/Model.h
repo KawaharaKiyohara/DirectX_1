@@ -243,7 +243,7 @@ namespace DirectX
 
         // Draw all the meshes in the model
         void XM_CALLCONV Draw( _In_ ID3D11DeviceContext* deviceContext, const CommonStates& states, FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
-                               bool wireframe = false, _In_opt_ std::function<void __cdecl()> setCustomState = nullptr ) const;
+                               bool wireframe = false ) const;
 
         // Notify model that effects, parts list, or mesh list has changed
         void __cdecl Modified() { mEffectCache.clear(); }
