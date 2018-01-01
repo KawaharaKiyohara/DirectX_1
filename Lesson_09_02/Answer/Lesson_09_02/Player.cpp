@@ -26,7 +26,17 @@ void Player::Update()
 		//Aキーが押された。
 		m_position.x -= 5.0f;
 	}
-	
+	for (int i = 0; i < NUM_COIN; i++) {
+		if (g_coin[i] != NULL) {
+			CVector3 v = g_coin[i]->m_position - m_position;
+			float len = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+			if (len < 70.0f) {
+				//コインとプレイヤーの距離が70cm以下なので、コインを削除。
+				delete g_coin[i];	//コインのインスタンスを削除。
+				g_coin[i] = NULL;	//削除したのでNULLを入れておく。
+			}
+		}
+	}
 	//ワールド行列を更新。
 	CQuaternion qRot;
 	qRot.SetRotationDeg(CVector3::AxisY(), 90.0f);
