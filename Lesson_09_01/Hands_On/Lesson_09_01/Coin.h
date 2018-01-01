@@ -18,6 +18,7 @@ public:
 	/////////////////////////////////////////////////
 	SkinModel m_model;		//モデル。
 	CVector3 m_position = CVector3::Zero();	//座標。
+	bool m_isGet = false;	//コイン取得済みのフラグ。
 };
 
 extern Coin* g_coin;

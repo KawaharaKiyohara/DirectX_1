@@ -26,6 +26,7 @@ void Player::Update()
 		//Aキーが押された。
 		m_position.x -= 5.0f;
 	}
+	
 	//ワールド行列を更新。
 	CQuaternion qRot;
 	qRot.SetRotationDeg(CVector3::AxisY(), 90.0f);

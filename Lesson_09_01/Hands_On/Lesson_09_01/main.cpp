@@ -112,7 +112,7 @@ void GameUpdate()
 	//3Dƒ‚ƒfƒ‹‚ð•`‰æ‚·‚éB
 	g_player->Update();
 	g_player->Draw(g_camera3D);
-	if (g_coin != NULL) {
+	if (g_coin->m_isGet == false) {
 		g_coin->Update();
 		g_coin->Draw(g_camera3D);
 	}

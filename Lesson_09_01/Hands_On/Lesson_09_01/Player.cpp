@@ -27,15 +27,14 @@ void Player::Update()
 		m_position.x -= 5.0f;
 	}
 	
-	if(g_coin != NULL){	//g_coinが削除済みかどうかをチェック。
+	if(g_coin->m_isGet == false){	//g_coinが取得済みかどうかをチェック。
 		//Hands-On 1 
 		//コインとプレイヤーの距離を計算して、コインをゲットできるようにしなさい。
 		//コインの座標はg_coin->m_positionで取得可能。
 		float len = 1000.0f;
 		if (len < 70.0f) {
-			//コインとプレイヤーの距離が70cm以下なので、コインを削除。
-			delete g_coin;	//コインのインスタンスを削除。
-			g_coin = NULL;	//削除したのでNULLを入れておく。
+			//コインとプレイヤーの距離が70cm以下なので、コイン取得フラグを設定する。
+			g_coin->m_isGet = true;
 		}
 	}
 	//ワールド行列を更新。

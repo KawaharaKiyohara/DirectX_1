@@ -117,7 +117,7 @@ void GameUpdate()
 	g_player->Update();
 	g_player->Draw(g_camera3D);
 	for( int i = 0; i < NUM_COIN; i++){
-		if (g_coin[i] != NULL) {
+		if (g_coin[i]->m_isGet == false) {
 			g_coin[i]->Update();
 			g_coin[i]->Draw(g_camera3D);
 		}
