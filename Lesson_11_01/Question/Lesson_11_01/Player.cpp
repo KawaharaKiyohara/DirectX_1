@@ -19,14 +19,16 @@ void Player::Update()
 {
 	//プレイヤーの移動処理。
 	if (GetAsyncKeyState('D')) {
-		//Wキーが押された。
+		//Dキーが押された。
 		m_position.x += 5.0f;
 		//Hunds-On-2 90°回す。
+		m_rotation.y = 90.0f;
 	}
 	else if (GetAsyncKeyState('A')) {
 		//Aキーが押された。
 		m_position.x -= 5.0f;
 		//Hunds-On-3 -90°回す。
+		m_rotation.y = -90.0f;
 	}
 	for (int i = 0; i < NUM_COIN; i++) {
 		if (g_coin[i]->m_isGet == false) {	//コイン取得済みでなければ。
@@ -40,7 +42,11 @@ void Player::Update()
 	}
 	//ワールド行列を更新。
 	//Hunds-On-4　ワールド行列の更新。いつものクォータニオンを使う場合と違うよ。
-	m_model.UpdateWorldMatrixEuler(m_position, CVector3::Zero(), CVector3::One());
+	m_model.UpdateWorldMatrixEuler(
+		m_position, 
+		m_rotation, 
+		CVector3::One()
+	);
 }
 void Player::Draw(CCamera* camera)
 {

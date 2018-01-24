@@ -19,8 +19,8 @@ void Player::Update()
 	//プレイヤーの回転の補間。-45度と315度で同じ方向を表しているのに
 	//補間のされ方が異なることを確認する。
 	CVector3 startRot = {0.0f, 45.0f, 0.0f};	//Y軸周りに45°
-	CVector3 endRot = {0.0f, -45.0f, 0.0f};		//Y軸周りに-45°。
-	//CVector3 endRot = { 0.0f, 315.0f, 0.0f };	//Y軸周りに-45度と同じ姿勢を表すのだけど・・・。
+	//CVector3 endRot = {0.0f, -45.0f, 0.0f};		//Y軸周りに-45°。
+	CVector3 endRot = { 0.0f, 315.0f, 0.0f };	//Y軸周りに-45度と同じ姿勢を表すのだけど・・・。
 
 	//startRotとendRotの間で線形補間。
 	CVector3 rot;

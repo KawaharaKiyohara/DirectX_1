@@ -22,6 +22,10 @@ void Player::Update()
 		//Wキーが押された。
 		m_position.x += 5.0f;
 		//Hunds-On-2 90°回す。
+		m_rotation.SetRotationDeg(
+			CVector3::AxisY(),
+			90
+		);
 	}
 	else if (GetAsyncKeyState('A')) {
 		//Aキーが押された。

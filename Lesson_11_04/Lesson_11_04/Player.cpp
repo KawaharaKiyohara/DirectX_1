@@ -20,8 +20,8 @@ void Player::Update()
 	CQuaternion qStart;
 	qStart.SetRotationDeg(CVector3::AxisY(), 45.0f);
 	CQuaternion qEnd;
-	qEnd.SetRotationDeg(CVector3::AxisY(), -45.0f);
-	//qEnd.SetRotationDeg(CVector3::AxisY(), 315.0f);
+	//qEnd.SetRotationDeg(CVector3::AxisY(), -45.0f);
+	qEnd.SetRotationDeg(CVector3::AxisY(), 315.0f);
 	
 
 	//startRotÇ∆endRotÇ≈ï‚ä‘ÅB

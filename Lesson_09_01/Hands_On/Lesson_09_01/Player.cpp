@@ -31,7 +31,8 @@ void Player::Update()
 		//Hands-On 1 
 		//コインとプレイヤーの距離を計算して、コインをゲットできるようにしなさい。
 		//コインの座標はg_coin->m_positionで取得可能。
-		float len = 1000.0f;
+		CVector3 v = m_position - g_coin->m_position;
+		float len = v.Length();
 		if (len < 70.0f) {
 			//コインとプレイヤーの距離が70cm以下なので、コイン取得フラグを設定する。
 			g_coin->m_isGet = true;
